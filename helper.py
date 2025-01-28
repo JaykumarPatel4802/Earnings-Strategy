@@ -1,6 +1,7 @@
 import requests
 import streamlit as st
 import pandas as pd
+import json
 
 class DataRetriever:
     
@@ -90,23 +91,23 @@ class DataRetriever:
         r = requests.get(url)
         data = r.json()
         quarterly_earnings = data["quarterlyEarnings"]
-        quarterly_earnings = quarterly_earnings[:min(7, len(quarterly_earnings))]
+        quarterly_earnings = quarterly_earnings[:min(7, len(quarterly_earnings))] if quarterly_earnings[0]["reportedEPS"] != "None" else quarterly_earnings[1:min(8, len(quarterly_earnings))]
         return [(entry["reportedDate"], entry["reportTime"]) for entry in quarterly_earnings]
     
     def __getDayData(self, date):
         month = '-'.join(date.split('-')[:2])
-        url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={self.ticker}&interval=30min&month={month}&outputsize=full&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
+        url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={self.ticker}&interval=1min&month={month}&outputsize=full&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
         r = requests.get(url)
         data = r.json()
-        dates = list(data["Time Series (30min)"].keys())
+        dates = list(data["Time Series (31min)"].keys())
         position = "Middle"
         if date in dates[0]:
             position = "End"
         elif date in dates[-1]:
             position = "Beginning"
         
-        open_price = data["Time Series (30min)"][f"{date} 09:30:00"]["1. open"]
-        close_price = data["Time Series (30min)"][f"{date} 16:00:00"]["4. close"]
+        open_price = data["Time Series (1min)"][f"{date} 09:30:00"]["1. open"]
+        close_price = data["Time Series (1min)"][f"{date} 16:00:00"]["4. close"]
 
         return open_price, close_price, position
     
@@ -132,7 +133,6 @@ class DataRetriever:
         earnings_data = []
 
         for reportedDate, reportTime in earnings_history:
-
             price_before_earnings = None
             price_after_earnings = None
             
