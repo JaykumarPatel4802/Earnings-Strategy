@@ -1,0 +1,27 @@
+import streamlit as st
+import pandas as pd
+
+# Number of rows in the table (dynamic)
+num_rows = st.slider("Number of rows", min_value=1, max_value=20, value=7)
+stock_price = st.number_input("Enter Price of Stock", format="%0.5f")
+
+# Placeholder for the table data
+data = {"Delta $": [0] * num_rows, "Delta %": [0] * num_rows, "% to Points": [0] * num_rows}
+
+# Creating the dynamic table
+for i in range(num_rows):
+    col1, col2 = st.columns(2)
+    
+    # Input A and Input B
+    data["Delta $"][i] = col1.number_input(f"{i+1}Q - $ Delta", key=f"input_a_{i}", format="%0.5f")
+    data["Delta %"][i] = col2.number_input(f"{i+1}Q - % Delta", key=f"input_b_{i}", format="%0.5f")
+    
+    # # Output C (dynamic value based on Input A and Input B)
+    # data["Output C"][i] = data["Input A"][i] + data["Input B"][i]  # Example logic
+    # col3.write(f"{data['Output C'][i]}")  # Display Output C
+    data["% to Points"][i] = (data["Delta %"][i] * stock_price)
+
+# Convert to DataFrame and display
+df = pd.DataFrame(data)
+st.write("Final Table:")
+st.dataframe(df)
