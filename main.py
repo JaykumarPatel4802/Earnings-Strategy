@@ -2,6 +2,15 @@ import streamlit as st
 import pandas as pd
 from helper import DataRetriever
 
+def optionsDFHighlighter(x):
+    # Create a DataFrame of styles, same shape as `x`, with empty defaults
+    styles = pd.DataFrame("", index=x.index, columns=x.columns)
+    
+    # Apply specific styles to the desired columns
+    styles["strike"] = "background-color: lightblue;"
+    
+    return styles
+
 # Number of rows in the table (dynamic)
 num_rows = st.slider("Number of rows", min_value=1, max_value=20, value=7)
 ticker = st.text_input("Enter Ticker Symbol", placeholder="AAPL, TSLA, etc.")
@@ -9,11 +18,11 @@ ticker = st.text_input("Enter Ticker Symbol", placeholder="AAPL, TSLA, etc.")
 dr = DataRetriever(ticker=ticker)
 if ticker:
     stock_price = dr.getStockPrice()
-    options_data = dr.getOptionsData()
+    options_df = dr.getOptionsData()
 else:
     stock_price = 0
-    options_data = None
-    
+    options_df = None
+
 st.subheader(f"Stock Price: ${stock_price}")  # Display stock price beside input
 
 # Placeholder for the table data
@@ -36,3 +45,17 @@ for i in range(num_rows):
 df = pd.DataFrame(data)
 st.write("Final Table:")
 st.dataframe(df)
+
+if options_df is not None:
+    # Group the DataFrame by expiration
+    grouped = options_df.groupby("expiration")
+
+    # Iterate through each group and apply the highlighter
+    for expiration_date, group in grouped:
+        # Apply styling to the group
+        styled_group = group.style.apply(optionsDFHighlighter, axis=None)
+
+        # Use an expander for each expiration group
+        with st.expander(f"Expiration: {expiration_date}", expanded=False):
+            # Display the styled DataFrame
+            st.dataframe(styled_group, use_container_width=True)
