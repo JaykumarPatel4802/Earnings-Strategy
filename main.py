@@ -1,9 +1,17 @@
 import streamlit as st
 import pandas as pd
+from helper import DataRetriever
 
 # Number of rows in the table (dynamic)
 num_rows = st.slider("Number of rows", min_value=1, max_value=20, value=7)
-stock_price = st.number_input("Enter Price of Stock", format="%0.5f")
+ticker = st.text_input("Enter Ticker Symbol", placeholder="AAPL, TSLA, etc.")
+
+dr = DataRetriever(ticker=ticker)
+stock_price = dr.getPrice()
+st.subheader(f"Stock Price: ${stock_price}")  # Display stock price beside input
+
+
+
 
 # Placeholder for the table data
 data = {"Delta $": [0] * num_rows, "Delta %": [0] * num_rows, "% to Points": [0] * num_rows}
