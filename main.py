@@ -44,7 +44,7 @@ for i in range(num_rows):
 # Convert to DataFrame and display
 df = pd.DataFrame(data)
 st.write("Final Table:")
-st.dataframe(df)
+st.dataframe(df, use_container_width=True)
 
 if options_df is not None:
     st.subheader(f"Displaying options data for: {options_date}")
