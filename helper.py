@@ -86,12 +86,12 @@ class DataRetriever:
 
         return date, df_option_chain
     
-    def __getEarningsHistory(self):
+    def __getEarningsHistory(self, numberOfRows):
         url = f'https://www.alphavantage.co/query?function=EARNINGS&symbol={self.ticker}&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
         r = requests.get(url)
         data = r.json()
         quarterly_earnings = data["quarterlyEarnings"]
-        quarterly_earnings = quarterly_earnings[:min(7, len(quarterly_earnings))] if quarterly_earnings[0]["reportedEPS"] != "None" else quarterly_earnings[1:min(8, len(quarterly_earnings))]
+        quarterly_earnings = quarterly_earnings[:min(numberOfRows, len(quarterly_earnings))] if quarterly_earnings[0]["reportedEPS"] != "None" else quarterly_earnings[1:min(numberOfRows + 1, len(quarterly_earnings))]
         return [(entry["reportedDate"], entry["reportTime"]) for entry in quarterly_earnings]
     
     def __getDayData(self, date):
@@ -126,9 +126,9 @@ class DataRetriever:
 
         return open_price, close_price
 
-    def getEarningsData(self):
+    def getEarningsData(self, numberOfRows):
 
-        earnings_history = self.__getEarningsHistory()
+        earnings_history = self.__getEarningsHistory(numberOfRows)
 
         earnings_data = []
 

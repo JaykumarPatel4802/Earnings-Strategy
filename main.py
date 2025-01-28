@@ -19,7 +19,7 @@ dr = DataRetriever(ticker=ticker)
 if ticker:
     stock_price = dr.getStockPrice()
     options_date, options_df = dr.getOptionsData()
-    earnings_data = dr.getEarningsData()
+    earnings_data = dr.getEarningsData(num_rows)
 else:
     stock_price = 0
     options_date, options_df = None, None
