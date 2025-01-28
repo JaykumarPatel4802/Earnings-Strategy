@@ -125,7 +125,7 @@ class DataRetriever:
 
         return open_price, close_price
 
-    def getEarningsDate(self):
+    def getEarningsData(self):
 
         earnings_history = self.__getEarningsHistory()
 
@@ -170,15 +170,14 @@ class DataRetriever:
                 price_after_earnings = next_date_open
 
             percent_price_change = abs(((float(price_after_earnings) - float(price_before_earnings)) / float(price_before_earnings)) * 100)
+            price_change = abs(float(price_after_earnings) - float(price_before_earnings))
             earnings_data.append({
                 "reportedDate": reportedDate,
                 "reportTime": reportTime,
                 "priceBeforeEarnings": float(price_before_earnings),
                 "priceAfterEarnings": float(price_after_earnings),
+                "priceChange": price_change,
                 "percentPriceChange": percent_price_change
             })
         
         return earnings_data
-
-dr = DataRetriever("ibm")
-print(dr.getEarningsDate())
