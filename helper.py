@@ -99,7 +99,7 @@ class DataRetriever:
         url = f'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol={self.ticker}&interval=1min&month={month}&outputsize=full&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
         r = requests.get(url)
         data = r.json()
-        dates = list(data["Time Series (31min)"].keys())
+        dates = list(data["Time Series (1min)"].keys())
         position = "Middle"
         if date in dates[0]:
             position = "End"
