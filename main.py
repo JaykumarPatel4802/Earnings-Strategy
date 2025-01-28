@@ -18,10 +18,10 @@ ticker = st.text_input("Enter Ticker Symbol", placeholder="AAPL, TSLA, etc.")
 dr = DataRetriever(ticker=ticker)
 if ticker:
     stock_price = dr.getStockPrice()
-    options_df = dr.getOptionsData()
+    options_date, options_df = dr.getOptionsData()
 else:
     stock_price = 0
-    options_df = None
+    options_date, options_df = None, None
 
 st.subheader(f"Stock Price: ${stock_price}")  # Display stock price beside input
 
@@ -47,6 +47,8 @@ st.write("Final Table:")
 st.dataframe(df)
 
 if options_df is not None:
+    st.subheader(f"Displaying options data for: {options_date}")
+
     # Group the DataFrame by expiration
     grouped = options_df.groupby("expiration")
 

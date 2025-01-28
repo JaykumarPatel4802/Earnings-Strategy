@@ -35,7 +35,6 @@ class DataRetriever:
 
         # Extract the date
         date = df['date'].iloc[0]
-        print(f"Date is: {date}")
 
         columns_to_remove = ['date', 'contractID', 'symbol', 'delta', 'gamma', 'theta', 'vega', 'rho']
 
@@ -84,4 +83,4 @@ class DataRetriever:
         # Reorder the DataFrame
         df_option_chain = df_option_chain[final_column_order]
 
-        return df_option_chain
+        return date, df_option_chain
