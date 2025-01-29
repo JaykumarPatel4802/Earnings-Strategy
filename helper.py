@@ -121,6 +121,8 @@ class DataRetriever:
         else:
             date = dates[0]
         
+        date = date.split(" ")[0]
+        
         open_price = data["Time Series (30min)"][f"{date} 09:30:00"]["1. open"]
         close_price = data["Time Series (30min)"][f"{date} 16:00:00"]["4. close"]
 
