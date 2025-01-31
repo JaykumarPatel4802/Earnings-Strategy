@@ -11,6 +11,14 @@ def optionsDFHighlighter(x):
     
     return styles
 
+def formatEarningsHistory(df):
+    df = df[["Report Time", "Reported Date"]]
+    df["Report Time"] = df["Report Time"].replace({
+        "post-market": "After Close",
+        "pre-market": "Before Open"
+    })
+    return df
+
 code = st.text_input("Enter code to use this app")
 
 if code == "Mario":
@@ -65,5 +73,6 @@ if code == "Mario":
 
     if earnings_history is not None:
         df = pd.DataFrame(earnings_history, columns=["Reported Date", "Report Time"])
+        df_formatted = formatEarningsHistory(df)
         st.write("Earnings History Table")
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df_formatted, use_container_width=True)
