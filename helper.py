@@ -86,7 +86,7 @@ class DataRetriever:
 
         return date, df_option_chain
     
-    def __getEarningsHistory(self, numberOfRows):
+    def getEarningsHistory(self, numberOfRows):
         url = f'https://www.alphavantage.co/query?function=EARNINGS&symbol={self.ticker}&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
         r = requests.get(url)
         data = r.json()
@@ -130,7 +130,7 @@ class DataRetriever:
 
     def getEarningsData(self, numberOfRows):
 
-        earnings_history = self.__getEarningsHistory(numberOfRows)
+        earnings_history = self.getEarningsHistory(numberOfRows)
 
         earnings_data = []
 
