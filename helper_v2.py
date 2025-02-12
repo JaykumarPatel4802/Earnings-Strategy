@@ -169,10 +169,10 @@ class DataRetriever:
                 closing_price = stock_price.iloc[1]["Open"]
 
                 # get price difference
-                price_difference = closing_price - opening_price
+                price_difference = abs(closing_price - opening_price)
 
                 # get percentage difference
-                percentage_difference = (price_difference / opening_price) * 100
+                percentage_difference = abs((price_difference / opening_price) * 100)
 
             earnings_data.append((reportedDate, reportTime, opening_price, closing_price, price_difference, percentage_difference))
 
