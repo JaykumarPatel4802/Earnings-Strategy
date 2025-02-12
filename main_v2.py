@@ -39,22 +39,22 @@ if code == "Mario":
 
     if earnings_data is not None:
         # Convert earnings_data to DataFrame
-        df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Price Difference", "Percentage Difference"])
+        df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Absolute Price Difference", "Absolute Percentage Difference"])
         st.write("Earnings Data Table")
         st.dataframe(df, use_container_width=True)
 
         # analyze the data. find the average percentage difference, quartiles, etc.
-        average_percentage_difference = df["Percentage Difference"].mean()
-        quartiles = df["Percentage Difference"].quantile([0.25, 0.5, 0.75])
-        st.write(f"Average Percentage Difference: {average_percentage_difference}%")
+        average_percentage_difference = df["AbsolutePercentage Difference"].mean()
+        quartiles = df["Absolute Percentage Difference"].quantile([0.25, 0.5, 0.75])
+        st.write(f"Average Absolute Percentage Difference: {average_percentage_difference}%")
         st.write(f"Quartiles: {quartiles}")
 
         # plot the price difference as a boxplot
         st.write("Boxplot of Price Differences")
-        fig = px.box(df, y="Price Difference")
+        fig = px.box(df, y="Absolute Price Difference")
         st.plotly_chart(fig)
 
         # plot the percentage difference as a boxplot
         st.write("Boxplot of Percentage Differences")
-        fig = px.box(df, y="Percentage Difference")
+        fig = px.box(df, y="Absolute Percentage Difference")
         st.plotly_chart(fig)
