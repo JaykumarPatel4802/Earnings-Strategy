@@ -44,7 +44,7 @@ if code == "Mario":
         st.dataframe(df, use_container_width=True)
 
         # analyze the data. find the average percentage difference, quartiles, etc.
-        average_percentage_difference = df["AbsolutePercentage Difference"].mean()
+        average_percentage_difference = df["Absolute Percentage Difference"].mean()
         quartiles = df["Absolute Percentage Difference"].quantile([0.25, 0.5, 0.75])
         st.write(f"Average Absolute Percentage Difference: {average_percentage_difference}%")
         st.write(f"Quartiles: {quartiles}")
