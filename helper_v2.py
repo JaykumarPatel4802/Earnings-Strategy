@@ -9,14 +9,16 @@ class DataRetriever:
     
     def __init__(self, ticker):
         self.ticker = ticker.upper()
-        self.stock_price = self.getStockPrice()
+        self.stock_price = None
     
     def getStockPrice(self):
         url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
         r = requests.get(url)
         data = r.json()
 
-        return float(data["Global Quote"]["05. price"])
+        self.stock_price = float(data["Global Quote"]["05. price"])
+
+        return self.stock_price
     
     def getOptionsData(self):
         url = f'https://www.alphavantage.co/query?function=HISTORICAL_OPTIONS&datatype=csv&symbol={self.ticker}&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
