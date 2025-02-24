@@ -157,6 +157,9 @@ class DataRetriever:
 
                 # get percentage difference
                 percentage_difference = (price_difference / opening_price) * 100
+
+                # get adjusted price difference
+                adjusted_price_difference = percentage_difference * self.stock_price
                 
             else:
                 # use yfinance to get stock price for reportedDate and 4 days after
