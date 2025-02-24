@@ -39,7 +39,7 @@ if code == "Mario":
 
     if earnings_data is not None:
         # Convert earnings_data to DataFrame
-        df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Absolute Price Difference", "Absolute Percentage Difference"])
+        df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Absolute Price Difference", "Absolute Percentage Difference", "Adjusted Price Difference"])
         st.write("Earnings Data Table")
         st.dataframe(df, use_container_width=True)
 

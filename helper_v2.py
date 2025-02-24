@@ -9,6 +9,7 @@ class DataRetriever:
     
     def __init__(self, ticker):
         self.ticker = ticker.upper()
+        self.stock_price = self.getStockPrice()
     
     def getStockPrice(self):
         url = f'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={self.ticker}&apikey={st.secrets["ALPHA_VANTAGE_KEY"]}'
@@ -174,6 +175,9 @@ class DataRetriever:
                 # get percentage difference
                 percentage_difference = abs((price_difference / opening_price) * 100)
 
-            earnings_data.append((reportedDate, reportTime, opening_price, closing_price, price_difference, percentage_difference))
+                # get adjusted price difference
+                adjusted_price_difference = percentage_difference * self.stock_price
+
+            earnings_data.append((reportedDate, reportTime, opening_price, closing_price, price_difference, percentage_difference, adjusted_price_difference))
 
         return earnings_data
