@@ -13,7 +13,7 @@ def formatEarningsHistory(df):
 
 st.title("Stock Details")
 
-code = st.text_input("Enter code to use this app", type="password")
+code = st.text_input("Enter code to use this app", type="password", key="stock_details_code")
 
 if code == "Mario":
 

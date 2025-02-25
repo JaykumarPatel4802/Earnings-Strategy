@@ -22,7 +22,8 @@ if code == "Mario":
 
         shortlist = {}
 
-        for ticker in tickers.split(","):
+        for idx, ticker in enumerate(tickers.split(",")):
+            st.progress(idx)
             # get average percent change in earnings history
             try:
                 dr = DataRetriever(ticker)
