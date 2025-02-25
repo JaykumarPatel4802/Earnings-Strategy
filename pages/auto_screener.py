@@ -18,14 +18,17 @@ if code == "Mario":
     high_price = price_range[1]
 
     if st.button("Run"):
-        st.write(f"Running the screener for {low_price} to {high_price}")
 
         shortlist = {}
+
+        progress_output = st.empty()
 
         my_bar = st.progress(0, text="Processing...")
 
         for idx, ticker in enumerate(tickers.split(",")):
+            
             my_bar.progress(idx / (len(tickers.split(",")) - 1) if len(tickers.split(",")) > 1 else 1)
+            progress_output.write(f"{((idx / (len(tickers.split(",")) - 1) if len(tickers.split(",")) > 1 else 1) * 100)}% - Processing {ticker}...")
 
             # get average percent change in earnings history
             try:
