@@ -27,7 +27,7 @@ if code == "Mario":
         for idx, ticker in enumerate(tickers.split(",")):
             
             my_bar.progress(idx / (len(tickers.split(","))))
-            progress_output.write(f"{((idx / (len(tickers.split(",")))) * 100)}% - Processing {ticker}...")
+            progress_output.write(f"{'{0:.2f}'.format((idx / (len(tickers.split(",")))) * 100)}% - Processing {ticker}...")
 
             # get average percent change in earnings history
             try:
