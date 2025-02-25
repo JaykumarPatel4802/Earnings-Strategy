@@ -22,13 +22,12 @@ if code == "Mario":
         shortlist = {}
 
         progress_output = st.empty()
-
         my_bar = st.progress(0, text="Processing...")
 
         for idx, ticker in enumerate(tickers.split(",")):
             
-            my_bar.progress(idx / (len(tickers.split(",")) - 1) if len(tickers.split(",")) > 1 else 1)
-            progress_output.write(f"{((idx / (len(tickers.split(",")) - 1) if len(tickers.split(",")) > 1 else 1) * 100)}% - Processing {ticker}...")
+            my_bar.progress(idx / (len(tickers.split(","))))
+            progress_output.write(f"{((idx / (len(tickers.split(",")))) * 100)}% - Processing {ticker}...")
 
             # get average percent change in earnings history
             try:
@@ -62,6 +61,9 @@ if code == "Mario":
             except Exception as e:
                 st.error(f"Error processing Ticker: {ticker}: {e}")
                 continue
+
+        my_bar.progress(1)
+        progress_output.write(f"100% - Done!")
 
         for ticker, data in shortlist.items():
             st.write(f"{ticker} - Price: ${data['stock_price']} - Average Percentage Difference: {data['average_percentage_difference']}%")
