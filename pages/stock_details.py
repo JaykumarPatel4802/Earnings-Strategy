@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from helper_v2 import DataRetriever
+from pages.helpers.helper import DataRetriever
 import plotly.express as px
 
 def formatEarningsHistory(df):
