@@ -5,7 +5,7 @@ import pandas as pd
 
 st.title("Auto Screener")
 
-code = st.text_input("Enter code to use this app", type="password")
+code = st.text_input("Enter code to use this app", type="password", key="auto_screener_code")
 
 if code == "Mario":
 
@@ -53,6 +53,7 @@ if code == "Mario":
 
             
             except Exception as e:
+                st.error(f"Error processing Ticker: {ticker}: {e}")
                 continue
 
         for ticker, data in shortlist.items():
