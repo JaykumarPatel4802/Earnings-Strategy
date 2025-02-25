@@ -25,7 +25,7 @@ if code == "Mario":
         my_bar = st.progress(0, text="Processing...")
 
         for idx, ticker in enumerate(tickers.split(",")):
-            my_bar.progress(idx / len(tickers.split(",") - 1))
+            my_bar.progress(idx / (len(tickers.split(",")) - 1) if len(tickers.split(",")) > 1 else 1)
 
             # get average percent change in earnings history
             try:
