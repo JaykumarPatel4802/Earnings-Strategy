@@ -18,7 +18,7 @@ code = st.text_input("Enter code to use this app", type="password")
 if code == "Mario":
 
     # Number of rows in the table (dynamic)
-    num_rows = st.slider("Number of rows", min_value=1, max_value=20, value=10)
+    num_rows = st.slider("Number of historical earnings data points to use", min_value=1, max_value=20, value=10)
     ticker = st.text_input("Enter Ticker Symbol", placeholder="AAPL, TSLA, etc.")
 
     dr = DataRetriever(ticker=ticker)

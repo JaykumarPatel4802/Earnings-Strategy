@@ -10,8 +10,8 @@ code = st.text_input("Enter code to use this app", type="password")
 if code == "Mario":
 
     price_range = st.slider("Price Range", min_value=0, max_value=500, value=(40, 250))
-    tickers = st.text_input("Tickers (comma separated)")
-    num_rows = st.slider("Number of rows", min_value=1, max_value=20, value=10)
+    tickers = st.text_input("Tickers (comma separated)", placeholder="AAPL, TSLA, NVDA, ...")
+    num_rows = st.slider("Number of historical earnings data points to use", min_value=1, max_value=20, value=10)
     percent_change_threshold = st.slider("Percent Change Threshold", min_value=0, max_value=100, value=10)
 
     low_price = price_range[0]
