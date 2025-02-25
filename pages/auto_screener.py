@@ -62,7 +62,7 @@ if code == "Mario":
                 st.error(f"Error processing Ticker: {ticker}: {e}")
                 continue
 
-        my_bar.progress(1)
+        my_bar.progress(1.00)
         progress_output.write(f"100% - Done!")
 
         for ticker, data in shortlist.items():
