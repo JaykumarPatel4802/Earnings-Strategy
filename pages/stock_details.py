@@ -11,6 +11,8 @@ def formatEarningsHistory(df):
     })
     return df
 
+st.title("Stock Details")
+
 code = st.text_input("Enter code to use this app", type="password")
 
 if code == "Mario":
