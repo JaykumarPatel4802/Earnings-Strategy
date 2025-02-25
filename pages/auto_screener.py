@@ -1,5 +1,6 @@
 import streamlit as st
 from pages.helpers.helper import DataRetriever
+from pages.stock_details import formatEarningsHistory
 import pandas as pd
 
 st.title("Auto Screener")
@@ -22,7 +23,6 @@ if code == "Mario":
         shortlist = {}
 
         for ticker in tickers.split(","):
-            print(f"Processing {ticker}")
             # get average percent change in earnings history
             try:
                 dr = DataRetriever(ticker)
@@ -34,19 +34,20 @@ if code == "Mario":
                 earnings_data = dr.getEarningsData(num_rows)
                 earnings_history = dr.getEarningsHistory(num_rows)
 
-                df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Absolute Price Difference", "Absolute Percentage Difference", "Adjusted Price Difference"])
+                earnings_data_df = pd.DataFrame(earnings_data, columns=["Reported Date", "Report Time", "Price Before", "Price After", "Absolute Price Difference", "Absolute Percentage Difference", "Adjusted Price Difference"])
+                earnings_history_df = pd.DataFrame(earnings_history, columns=["Reported Date", "Report Time"])
+                earnings_history_df = formatEarningsHistory(earnings_history_df)
 
                 # get average percent change in earnings history
-                average_percentage_difference = df["Absolute Percentage Difference"].mean()
-
-                print(f"{ticker} - Price: ${stock_price} - Average Percentage Difference: {average_percentage_difference}%")
+                average_percentage_difference = earnings_data_df["Absolute Percentage Difference"].mean()
 
                 if average_percentage_difference > percent_change_threshold and low_price <= stock_price <= high_price:
                     shortlist[ticker] = {
                         "stock_price": stock_price,
                         "earnings_data": earnings_data,
-                        "earnings_data_df": df,
+                        "earnings_data_df": earnings_data_df,
                         "earnings_history": earnings_history,
+                        "earnings_history_df": earnings_history_df,
                         "average_percentage_difference": average_percentage_difference
                     }
 
@@ -57,4 +58,8 @@ if code == "Mario":
         for ticker, data in shortlist.items():
             st.write(f"{ticker} - Price: ${data['stock_price']} - Average Percentage Difference: {data['average_percentage_difference']}%")
             with st.expander("Additional Data"):
-                st.write(data)
+                st.write("Earnings Data Table")
+                st.dataframe(data['earnings_data_df'], use_container_width=True)
+
+                st.write("Earnings History Table")
+                st.dataframe(data['earnings_history_df'], use_container_width=True)
