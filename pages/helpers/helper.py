@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 class DataRetriever:
     
     def __init__(self, ticker):
-        self.ticker = ticker.upper()
+        self.ticker = ticker.strip().upper()
         self.stock_price = None
     
     def getStockPrice(self):

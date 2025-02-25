@@ -22,10 +22,15 @@ if code == "Mario":
         shortlist = {}
 
         for ticker in tickers.split(","):
+            print(f"Processing {ticker}")
             # get average percent change in earnings history
             try:
                 dr = DataRetriever(ticker)
                 stock_price = dr.getStockPrice()
+
+                if stock_price < low_price or stock_price > high_price:
+                    continue
+
                 earnings_data = dr.getEarningsData(num_rows)
                 earnings_history = dr.getEarningsHistory(num_rows)
 
@@ -33,12 +38,16 @@ if code == "Mario":
 
                 # get average percent change in earnings history
                 average_percentage_difference = df["Absolute Percentage Difference"].mean()
+
+                print(f"{ticker} - Price: ${stock_price} - Average Percentage Difference: {average_percentage_difference}%")
+
                 if average_percentage_difference > percent_change_threshold and low_price <= stock_price <= high_price:
                     shortlist[ticker] = {
                         "stock_price": stock_price,
                         "earnings_data": earnings_data,
                         "earnings_data_df": df,
-                        "earnings_history": earnings_history
+                        "earnings_history": earnings_history,
+                        "average_percentage_difference": average_percentage_difference
                     }
 
             
@@ -46,6 +55,6 @@ if code == "Mario":
                 continue
 
         for ticker, data in shortlist.items():
-            st.write(f"{ticker} - {data['stock_price']} - {data['average_percentage_difference']}")
+            st.write(f"{ticker} - Price: ${data['stock_price']} - Average Percentage Difference: {data['average_percentage_difference']}%")
             with st.expander("Additional Data"):
                 st.write(data)
